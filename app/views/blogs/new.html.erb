@@ -1,0 +1,75 @@
+<style>
+  body {
+    background-color: #c3e6f9;
+    
+  }
+
+  .form-container {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #c7f0e9;
+    border: 1px solid #8ac6d1;
+    border-radius: 4px;
+  }
+
+  .form-title {
+    font-size: 24px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #8ac6d1;
+    border-radius: 4px;
+  }
+
+  .form-submit {
+    margin-top: 20px;
+  }
+</style>
+
+<div>
+  <h3 class="text-uppercase text-center mb-4">Create a Blog</h3>
+  <div class="d-flex justify-content-center">
+    <%= form_with model: @blog, url: blogs_path, method: :post, html: { class: "form-container" } do |f| %>
+      <div class="row">
+        <div class="col mb-3">
+          <%= f.label :title, class: "form-label" %>
+          <%= f.text_field :title, placeholder: "Enter title of Blog", class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col mb-3">
+          <%= f.label :body, class: "form-label" %>
+          <%= f.text_area :body, placeholder: "Write content of Blog", class: "form-control", rows: 6 %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col mb-3">
+          <%= f.label :author, class: "form-label" %>
+          <%= f.text_field :author, placeholder: "Enter Author of Blog", class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="row form-submit">
+        <div class="col">
+          <%= f.submit "Create", class: "btn btn-primary btn-lg btn-block" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

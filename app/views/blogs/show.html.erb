@@ -1,0 +1,129 @@
+<style>
+  body {
+    
+    background-color: #c3e6f9;
+    margin: 0;
+    padding: 40px;
+  }
+
+  .blog-content {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+    min-height: 400px;
+  }
+
+  .blog-title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+  }
+
+  .blog-body {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .comment {
+    margin-bottom: 10px;
+  }
+
+  form {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  textarea {
+    width: 100%;
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+
+  .like-link {
+    text-decoration: none;
+    color: #333;
+    font-size: 24px;
+    margin-top: 10px;
+    transition: color 0.3s ease;
+  }
+
+  .like-link:hover {
+    color: #ff5c5c;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  }
+  .blog-content:hover,
+  .comment:hover,.form-control:hover {
+    background-color: #c7f0e9 ;
+    transition: background-color 0.3s;
+  }
+</style>
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+
+      <% if flash[:notice].present? %>
+        <div id="notice" class="alert alert-success" role="alert">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+
+      <div class="blog-content">
+        <h2 class="blog-title"><%= @blog.title %></h2>
+        <p class="blog-body"><%= @blog.body %></p>
+      </div>
+
+      
+
+
+      <h3>Comments:</h3>
+      <% @comments.each do |comment| %>
+        <p class="comment"><%= comment.content %></p>
+      <% end %>
+
+      <%= form_with(model: [@blog, @comment], url: blog_comments_path(@blog)) do |form| %>
+        <%= form.text_area :content, rows: 4, class: 'form-control mb-2' %>
+        <%= form.submit 'Add Comment', class: 'btn btn-primary' %>
+      <% end %>
+
+      <%= button_to thumbs_up_blog_path(@blog), method: :post, class: 'like-link' do %>
+        <span class="material-icons">
+          thumb_up
+        </span>
+        Like
+      <% end %>
+      
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <script>
+        $(document).ready(function() {
+        // Fade out and remove the notice after 2 seconds
+          $('#notice').delay(2000).fadeOut(500, function() {
+            $(this).remove();
+          });
+        });
+      </script>
+    </div>
+  </div>
+</div>

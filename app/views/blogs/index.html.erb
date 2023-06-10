@@ -1,0 +1,81 @@
+<style>
+  body {
+    background-color: #c3e6f9;
+  }
+
+  .col {
+    background-color: #c3e6f9;
+  }
+
+  .card-body {
+    background-color: #fff;
+    border-radius: 4px;
+    
+    box-shadow: 0px 2px 4px rgba(0, 0, 0.1, 0.2);
+   
+    text-align: center;
+    
+    transition: background-color 0.3s;
+    
+  }
+
+  .card-body:hover {
+    background-color: #c7f0e9;
+    
+  }
+  
+</style>
+
+<div class="container d-flex justify-content-center align-items-center bg-light" style="background-color: #c3e6f9;">
+  <div class="row">
+    <div class="col">
+
+      <% if flash[:notice].present? %>
+        <div id="notice" class="alert alert-success" role="alert">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+
+      <h1 class="mt-4 text-center">Welcome To The Blog!</h1>
+
+      <% @blogs.each do |blog| %>
+        <div class="card mt-4 text-center">
+          <div class="card-body">
+            <h2 class="card-title text-uppercase"><%= link_to blog.title, blog_path(blog), style: "text-decoration: none;" %></h2>
+            <p class="card-text">
+              <% if blog.body.length > 200 %>
+                <%= truncate(blog.body, length: 200) %>
+                <%= link_to 'Read More', blog_path(blog) %>
+              <% else %>
+                <%= blog.body %>
+              <% end %>
+            </p>
+            <p class="card-text">Author: <%= blog.author %></p>
+            <div class="d-flex justify-content-center">
+              <%= button_to 'Edit', edit_blog_path(blog), method: :get, class: "btn btn-primary me-2" %>
+              <%= button_to 'Remove', blog_path(blog), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-remove btn-danger" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="mt-4 text-center">
+        <%= link_to "Create New Blog", new_blog_path, class: "btn btn-create btn-warning" %>
+      </div>
+      
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+      <script>
+        $(document).ready(function() {
+          // Delay and fade out the notice after 2 seconds
+          setTimeout(function() {
+            $('#notice').fadeOut(500, function() {
+              $(this).remove();
+            });
+          }, 2000);
+        });
+      </script>
+
+    </div>
+  </div>
+</div>
